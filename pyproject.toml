@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "shared-todo"
+version = "0.1.0"
+description = ""
+authors = ["Kelvin <kelvin60429@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.70.0"
+uvicorn = "^0.15.0"
+sqlmodel = "^0.0.4"
+python-dotenv = "^0.19.2"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+black = "^21.11b1"
+pytest = "^6.2.5"
+mypy = "^0.910"
+
+[tool.mypy]
+ignore_missing_imports = true
+follow_imports = "skip"
+show_column_numbers = true
+disallow_untyped_defs = true
+no_warn_no_return = true
+
+[tool.black]
+include = '\.py$'
+skip-string-normalization = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
