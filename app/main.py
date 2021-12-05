@@ -1,8 +1,8 @@
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlmodel import Session, SQLModel, select
 
-from .db import engine, get_session
-from .models import Task, TaskCreate, TaskUpdate
+from db import engine, get_session
+from models import Task, TaskCreate, TaskUpdate
 
 
 app = FastAPI(debug=True)
@@ -10,6 +10,8 @@ app = FastAPI(debug=True)
 
 @app.on_event("startup")
 def on_startup() -> None:
+    from config import settings
+    print(settings.DATABASE_URI)
     SQLModel.metadata.create_all(engine)
 
 

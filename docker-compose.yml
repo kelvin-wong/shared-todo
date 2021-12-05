@@ -1,23 +1,38 @@
 version: "3.9"
 
 services:
-  db:
+  postgres:
     image: postgres:13
-    ports:
-      - "5432:5432"
     volumes:
       - ./site/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=shared_todo
+    healthcheck:
+      test: /usr/bin/pg_isready
+      interval: 5s
+      timeout: 10s
+      retries: 120
   web:
     build: .
     ports:
-      - "8000:8000"
+      - 8000:8000
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     depends_on:
-      - db
+      postgres:
+        condition: service_healthy
+  archiver:
+    build:
+      context: .
+      dockerfile: ./archiver.Dockerfile
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
