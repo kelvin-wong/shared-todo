@@ -4,6 +4,7 @@ WORKDIR /app
 
 RUN pip install poetry
 COPY pyproject.toml poetry.lock /app/
+COPY .env.dist /app/.env
 RUN python3 -m venv .venv
 
 ENV PATH=".venv/bin:${PATH}"
